@@ -1,0 +1,22 @@
+language: go
+
+go:
+  - 1.5
+  - tip
+
+services:
+  - redis-server
+
+before_install:
+  - go get -u github.com/aws/aws-sdk-go
+  - go get github.com/zenazn/goji
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
+  - mkdir -p $HOME/dynamodb
+  - curl -L -o /tmp/dynamodb-local.tar.gz http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz
+  - tar xvzf /tmp/dynamodb-local.tar.gz -C $HOME/dynamodb
+  - java -Djava.library.path=$HOME/dynamodb/DynamoDBLocal_lib -jar $HOME/dynamodb/DynamoDBLocal.jar -inMemory &
+
+script:
+  - $HOME/gopath/bin/goveralls -service=travis-ci
