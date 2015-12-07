@@ -1,0 +1,2 @@
+# dynamonitor
+DynamoDB Monitoring Tool
